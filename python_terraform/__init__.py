@@ -306,8 +306,19 @@ class Terraform(object):
 
         if not synchronous:
             return p, None, None
+        captured_output = ''
+        if capture_output is True:
+            while True:
+              line = p.stdout.readline()
+              if line != b'':
+                log.debug(line.rstrip())
+                captured_output = captured_output+line
+              else:
+                break
 
         out, err = p.communicate()
+        if capture_output is True:
+            out = captured_output
         ret_code = p.returncode
         log.debug('output: {o}'.format(o=out))
 
