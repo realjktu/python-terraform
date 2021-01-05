@@ -322,10 +322,7 @@ class Terraform(object):
         ret_code = p.returncode
         log.debug('output: {o}'.format(o=out))
 
-        if ret_code == 0:
-            self.read_state_file()
-        else:
-            log.warn('error: {e}'.format(e=err))
+        self.read_state_file()
 
         self.temp_var_files.clean_up()
         if capture_output is True:
